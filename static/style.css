@@ -1,0 +1,275 @@
+/*---------------------------------------------------------------------
+   Design tokens
+   Subject: a shopkeeper's payment ledger. The whole page is built around
+   the idea of a paper receipt/ledger tape — because that's the exact
+   object this agent is replacing.
+--------------------------------------------------------------------- */
+:root {
+  --paper: #F5F7F3;
+  --card: #FFFFFF;
+  --ink: #142520;
+  --ink-muted: #64756D;
+  --emerald: #0E8F5F;
+  --emerald-dark: #0A6E48;
+  --amber: #C9860A;
+  --rust: #B34324;
+  --rule: #DDE4DD;
+ 
+  --font-display: "Space Grotesk", "Segoe UI", sans-serif;
+  --font-body: "Inter", "Segoe UI", sans-serif;
+  --font-mono: "JetBrains Mono", "Courier New", monospace;
+}
+ 
+* { box-sizing: border-box; }
+ 
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+ 
+.wrap {
+  max-width: 880px;
+  margin: 0 auto;
+  padding: 32px 20px 80px;
+}
+ 
+/* ---------------------------------------------------------------- header */
+ 
+.masthead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid var(--ink);
+}
+ 
+.masthead h1 {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+ 
+.masthead .tag {
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+ 
+/* -------------------------------------------------------- ledger hero */
+ 
+.ledger-hero {
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 4px;
+  padding: 28px 28px 24px;
+  margin-bottom: 24px;
+  position: relative;
+  overflow: hidden;
+}
+ 
+.ledger-hero::after {
+  /* torn receipt edge along the bottom */
+  content: "";
+  position: absolute;
+  left: 0; right: 0; bottom: -1px;
+  height: 12px;
+  background:
+    linear-gradient(135deg, var(--paper) 50%, transparent 50%) 0 0 / 16px 16px,
+    linear-gradient(45deg, var(--paper) 50%, transparent 50%) 0 0 / 16px 16px;
+  background-position: 0 100%, 8px 100%;
+}
+ 
+.ledger-hero .label {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: #9FB5AC;
+  margin-bottom: 6px;
+}
+ 
+.ledger-hero .amount {
+  font-family: var(--font-mono);
+  font-size: clamp(2.4rem, 8vw, 3.4rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--emerald);
+  line-height: 1;
+}
+ 
+.ledger-hero .amount .rupee { font-size: 0.6em; color: #9FB5AC; margin-right: 4px; }
+ 
+.ledger-hero .subrow {
+  display: flex;
+  gap: 24px;
+  margin-top: 16px;
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  color: #B9CBC3;
+}
+ 
+.ledger-hero .subrow strong { color: var(--paper); }
+ 
+/* ------------------------------------------------------------- stat grid */
+ 
+.stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 28px;
+}
+ 
+.stat-card {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  padding: 14px 16px;
+}
+ 
+.stat-card .n {
+  font-family: var(--font-mono);
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+ 
+.stat-card .l {
+  font-size: 0.72rem;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-top: 2px;
+}
+ 
+/* -------------------------------------------------------------- order list */
+ 
+.section-title {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin: 0 0 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px dashed var(--rule);
+}
+ 
+.receipt {
+  background: var(--card);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  overflow: hidden;
+}
+ 
+.line-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  border-bottom: 1px dashed var(--rule);
+}
+ 
+.line-item:last-child { border-bottom: none; }
+ 
+.line-item .id {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+  width: 44px;
+  flex-shrink: 0;
+}
+ 
+.line-item .desc {
+  flex: 1;
+  min-width: 0;
+}
+ 
+.line-item .desc .t {
+  font-size: 0.92rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+ 
+.line-item .desc .p {
+  font-family: var(--font-mono);
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+}
+ 
+.line-item .amt {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-size: 0.95rem;
+  flex-shrink: 0;
+}
+ 
+/* stamp badges — the signature element. Rotated, inked, deliberately
+   imperfect, like a real rubber stamp on a paper receipt. */
+.stamp {
+  font-family: var(--font-mono);
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 3px 8px;
+  border: 1.5px solid currentColor;
+  border-radius: 3px;
+  transform: rotate(-4deg);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+ 
+.stamp.paid       { color: var(--emerald-dark); }
+.stamp.recovered  { color: var(--emerald-dark); background: #E6F4EC; }
+.stamp.lost       { color: var(--rust); }
+.stamp.waiting    { color: var(--ink-muted); border-style: dashed; }
+.stamp.nudged, .stamp.discount { color: var(--amber); }
+ 
+.line-item .sim-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+ 
+.sim-btn {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 5px 8px;
+  border-radius: 3px;
+  border: 1px solid var(--rule);
+  background: var(--paper);
+  color: var(--ink);
+  cursor: pointer;
+  text-decoration: none;
+  white-space: nowrap;
+}
+ 
+.sim-btn.sim-fail:hover { border-color: var(--rust); color: var(--rust); }
+.sim-btn.sim-pay:hover { border-color: var(--emerald); color: var(--emerald-dark); }
+.sim-btn.sim-link { border-color: var(--emerald); color: var(--emerald-dark); }
+ 
+#newOrderForm input:focus {
+  outline: none;
+  border-color: var(--ink) !important;
+}
+ 
+.empty-state {
+  padding: 40px 16px;
+  text-align: center;
+  color: var(--ink-muted);
+  font-size: 0.9rem;
+}
+ 
+@media (max-width: 520px) {
+  .stat-grid { grid-template-columns: 1fr 1fr; }
+  .line-item .p { display: none; }
+}
+ 
